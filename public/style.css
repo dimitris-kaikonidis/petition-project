@@ -36,7 +36,20 @@ input {
     margin-top: 40px;
 }
 
+#canvas-container {
+    display: flex;
+    flex-direction: column;
+}
+
 canvas {
     background-color: white;
     border-radius: 20px;
+}
+
+#clear-button {
+    background: none;
+    border: none;
+    align-self: flex-end;
+    margin-right: 10px;
+    font-style: italic;
 }
