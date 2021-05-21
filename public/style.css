@@ -1,0 +1,42 @@
+body {
+    margin: 0;
+    box-sizing: border-box;
+    height: 100vh;
+    background-color: orange;
+}
+
+h1 {
+    text-align: center;
+    padding: 75px 0;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 400px;
+    height: 300px;
+    padding: 30px;
+    background-color: peru;
+    border-radius: 30px;
+}
+
+input {
+    border-radius: 10px;
+    width: 50%;
+}
+
+#signature-container {
+    margin-top: 40px;
+}
+
+canvas {
+    background-color: white;
+    border-radius: 20px;
+}
