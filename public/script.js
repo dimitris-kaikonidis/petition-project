@@ -1,16 +1,19 @@
 const clearButton = $("#clear-button");
+const submitButton = $("#submit-button");
+const signatureVal = $("#signature");
 const signature = $("#signature-canvas");
 const ctx = signature[0].getContext("2d");
 
-ctx.lineWidth = "5";
+ctx.lineWidth = "3";
 ctx.strokeStyle = "black";
 
 let draw = false;
 let mouseCoords;
+let prevCoords = mouseCoords;
 
 signature.on("mousedown", event => {
     draw = true;
-    mouseCoords = {
+    prevCoords = {
         x: event.pageX - signature.offset().left,
         y: event.pageY - signature.offset().top
     };
@@ -22,7 +25,7 @@ signature.on("mousemove", event => {
             x: event.pageX - signature.offset().left,
             y: event.pageY - signature.offset().top
         };
-        sign(mouseCoords);
+        sign();
     }
 });
 
@@ -30,11 +33,15 @@ signature.on("mouseup", () => {
     draw = false;
 });
 
+submitButton.on("mouseup", () => signatureVal.val(signature[0].toDataURL()));
+
 clearButton.on("mouseup", () => ctx.clearRect(0, 0, signature.width(), signature.height()));
 
-function sign(prevPos) {
+function sign() {
     ctx.beginPath();
-    ctx.moveTo(prevPos.x, prevPos.y);
-    ctx.lineTo(prevPos.x + 1, prevPos.y + 1);
+    ctx.moveTo(prevCoords.x, prevCoords.y);
+    ctx.lineTo(mouseCoords.x, mouseCoords.y);
     ctx.stroke();
+    prevCoords = mouseCoords;
 }
+
