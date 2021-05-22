@@ -1,5 +1,5 @@
 const clearButton = $("#clear-button");
-const submitButton = $("#submit-button");
+const form = $("#petition-form");
 const signatureVal = $("#signature");
 const signature = $("#signature-canvas");
 const ctx = signature[0].getContext("2d");
@@ -31,9 +31,10 @@ signature.on("mousemove", event => {
 
 signature.on("mouseup", () => {
     draw = false;
+    signatureVal.val(signature[0].toDataURL());
 });
 
-submitButton.on("mouseup", () => signatureVal.val(signature[0].toDataURL()));
+form.submit(() => document.cookie = "signed=true");
 
 clearButton.on("mouseup", () => ctx.clearRect(0, 0, signature.width(), signature.height()));
 
