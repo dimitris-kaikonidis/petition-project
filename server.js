@@ -26,8 +26,14 @@ app.post("/petition", (req, res) => {
 });
 
 app.get("/thanks", (req, res) => {
-    if (req.cookies.signed) res.render("thanks");
-    else res.redirect("petition");
+    if (req.cookies.signed) {
+        getSignatures().then((result) => {
+            res.render("thanks", { count: result.rowCount });
+        });
+    }
+    else {
+        res.redirect("petition");
+    }
 });
 
 app.get("/signers", (req, res) =>
