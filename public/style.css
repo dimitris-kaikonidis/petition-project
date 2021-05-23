@@ -34,9 +34,8 @@ form {
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    width: 400px;
     height: 300px;
-    padding: 30px;
+    padding: 30px 90px;
     background-color: rgba(0, 0, 0, 0.356);
     border-radius: 30px;
     color: white;
@@ -45,6 +44,20 @@ form {
 input {
     border-radius: 10px;
     width: 50%;
+}
+
+#first-container,
+#last-container {
+    margin-left: 20px;
+    align-self: flex-start;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    line-height: 25px;
+}
+
+input {
+    width: 150px;
 }
 
 #signature-container {
@@ -96,7 +109,6 @@ canvas {
     color: white;
     text-align: center;
     border-radius: 5px;
-    overflow: hidden;
 }
 
 #signers > ul {

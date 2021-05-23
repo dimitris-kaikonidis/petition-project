@@ -7,8 +7,23 @@ let animation;
 
 tickerAnimation();
 
-signersListContainer.on("mouseover", () => cancelAnimationFrame(animation));
-signersListContainer.on("mouseout", () => tickerAnimation());
+signersListContainer.on("mouseenter", () => cancelAnimationFrame(animation));
+signersListContainer.on("mouseleave", () => {
+    cancelAnimationFrame(animation);
+    tickerAnimation();
+});
+
+document.getElementById("signers").addEventListener("wheel", (event) => {
+    cancelAnimationFrame(animation);
+    if (signersList.offset().top < 50 && event.deltaY < 0) {
+        offsetTop = offsetTop + 5;
+        signersList.css("top", `${offsetTop}px`);
+    }
+    setTimeout(() => {
+        cancelAnimationFrame(animation);
+        tickerAnimation();
+    }, 3000);
+});
 
 function tickerAnimation() {
     if (crowbar.offset().top < 300) {
