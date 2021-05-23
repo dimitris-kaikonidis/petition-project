@@ -3,6 +3,9 @@ body {
     box-sizing: border-box;
     height: 100vh;
     background-color: orange;
+    background-image: url("/assets/wallpaperflare.com_wallpaper.jpg");
+    background-size: cover;
+    font-family: "Special Elite", serif;
 }
 
 h1 {
@@ -10,8 +13,19 @@ h1 {
     padding: 75px 0;
 }
 
+#gordon {
+    content: url("/assets/Gordon_freeman-removebg-preview.png");
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    bottom: 0;
+    right: 0;
+}
+
 main {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
 }
 
@@ -23,8 +37,9 @@ form {
     width: 400px;
     height: 300px;
     padding: 30px;
-    background-color: peru;
+    background-color: rgba(0, 0, 0, 0.356);
     border-radius: 30px;
+    color: white;
 }
 
 input {
@@ -42,14 +57,64 @@ input {
 }
 
 canvas {
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.356);
     border-radius: 20px;
 }
 
 #clear-button {
-    background: none;
-    border: none;
+    background-color: rgba(255, 255, 255, 0.767);
+    border-top: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
     align-self: flex-end;
-    margin-right: 10px;
+    margin-right: 15px;
     font-style: italic;
+}
+
+#submit-button {
+    font-size: 20px;
+    width: 180px;
+    height: 50px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+#thanks > p {
+    color: white;
+}
+
+#thanks > p > a {
+    text-decoration: none;
+    color: orange;
+}
+
+#signers {
+    height: 100vh;
+    align-self: flex-end;
+    margin-right: 50px;
+    background-color: rgba(0, 0, 0, 0.356);
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#signers > ul {
+    position: relative;
+    list-style-type: none;
+    padding: 20px 100px;
+}
+
+#signers > ul > li {
+    white-space: nowrap;
+}
+
+#signers > h3 {
+    position: relative;
+    bottom: 0;
+}
+
+#crowbar {
+    margin-top: 300px;
+    visibility: hidden;
 }
