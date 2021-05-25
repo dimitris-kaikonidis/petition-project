@@ -3,6 +3,7 @@ const express = require("express");
 const hb = require("express-handlebars");
 const cookieSession = require("cookie-session");
 const secrets = require("./secrets.json");
+const csurf = require("csurf");
 const { getSignatures, addSignatures, getCount, getUsersSignature } = require("./db");
 
 const app = express();
@@ -14,11 +15,22 @@ app.use(cookieSession({
     secret: secrets.session,
     maxAge: 1000 * 60 * 60 * 24 * 30
 }));
+
 app.use(express.urlencoded({ extended: true }));
+app.use(csurf());
+
+app.use((req, res, next) => {
+    res.locals.csrfToken = req.csrfToken();
+    next();
+});
+
+app.use((req, res, next) => {
+    res.setHeader("X-Frame-Options", "DENY");
+    next();
+});
 app.use(express.static(__dirname + '/public/'));
 
 app.get("/", (req, res) => res.redirect("petition"));
-
 app.get("/petition", (req, res) => req.session.signed ? res.redirect("/thanks") : res.render("petition"));
 
 app.post("/petition", (req, res) => {
@@ -27,6 +39,9 @@ app.post("/petition", (req, res) => {
             req.session.signed = true;
             req.session.signatureId = results.rows[0].id;
             res.redirect("/thanks");
+        })
+        .catch(error => {
+            res.session = null;
         });
 });
 
