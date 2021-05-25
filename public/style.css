@@ -3,7 +3,7 @@ body {
     box-sizing: border-box;
     height: 100vh;
     background-color: orange;
-    background-image: url("/assets/wallpaperflare.com_wallpaper.jpg");
+    background-image: url("./assets/wallpaperflare.com_wallpaper.jpg");
     background-size: cover;
     font-family: "Special Elite", serif;
 }
@@ -72,6 +72,7 @@ input {
 canvas {
     background-color: rgba(255, 255, 255, 0.356);
     border-radius: 20px;
+    cursor: url("./assets/pen.cur"), auto;
 }
 
 #clear-button {
@@ -101,6 +102,11 @@ canvas {
     color: orange;
 }
 
+#user-signature {
+    background-color: rgba(0, 0, 0, 0.356);
+    border-radius: 30px;
+}
+
 #signers {
     height: 100vh;
     align-self: flex-end;
@@ -109,12 +115,15 @@ canvas {
     color: white;
     text-align: center;
     border-radius: 5px;
+    overflow: hidden;
 }
 
 #signers > ul {
     position: relative;
+    z-index: 1;
     list-style-type: none;
     padding: 20px 100px;
+    z-index: 0;
 }
 
 #signers > ul > li {
@@ -122,11 +131,13 @@ canvas {
 }
 
 #signers > h3 {
-    position: relative;
+    position: absolute;
     bottom: 0;
+    left: 10px;
+    z-index: 1;
 }
 
 #crowbar {
-    margin-top: 300px;
     visibility: hidden;
+    margin-top: 45vh;
 }
