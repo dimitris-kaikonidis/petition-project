@@ -2,9 +2,6 @@ const signatureVal = $("#signature");
 const signature = $("#signature-canvas");
 const ctx = signature[0].getContext("2d");
 
-const form = $("#petition-form");
-const firstName = $("#first");
-const lastName = $("#last");
 const clearButton = $("#clear-button");
 
 ctx.lineWidth = "3";
@@ -42,21 +39,6 @@ clearButton.on("mouseup", () => {
     ctx.clearRect(0, 0, signature.width(), signature.height());
     signatureVal.val("");
 });
-form.on("submit", (event) => {
-    if (!signatureVal.val()) {
-        event.preventDefault();
-        signature.addClass("required");
-    }
-    if (!firstName.val()) {
-        event.preventDefault();
-        firstName.addClass("required");
-    }
-    if (!lastName.val()) {
-        event.preventDefault();
-        lastName.addClass("required");
-    }
-});
-$("input").on("input", (event) => $(event.target).removeClass("required"));
 
 function sign() {
     ctx.beginPath();

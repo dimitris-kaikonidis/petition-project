@@ -1,0 +1,22 @@
+<h1>Register</h1>
+<form id="register-form" method="POST">
+    <div id="first-container" class="input-container">
+        <label for="first">First Name</label>
+        <input id="first" type="text" name="first" />
+    </div>
+    <div id="last-container" class="input-container">
+        <label for="last">Last Name</label>
+        <input id="last" type="text" name="last" />
+    </div>
+    <div id="email-container" class="input-container">
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email" />
+    </div>
+    <div id="password-container" class="input-container">
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" />
+    </div>
+    <input type="hidden" name="_csrf" value={{csrfToken}} />
+</form>
+
+<button id="submit-button" form="register-form">Register</button>

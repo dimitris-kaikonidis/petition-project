@@ -2,7 +2,7 @@ body {
     margin: 0;
     box-sizing: border-box;
     height: 100vh;
-    background-color: orange;
+    background-color: black;
     background-image: url("./assets/city17.jpg");
     background-size: cover;
     font-family: "Special Elite", serif;
@@ -10,7 +10,15 @@ body {
 
 h1 {
     text-align: center;
-    padding: 75px 0;
+    padding: 50px 0;
+}
+
+h3 {
+    color: white;
+}
+
+h3 > a {
+    color: darkorange;
 }
 
 #gordon {
@@ -33,6 +41,7 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     height: 300px;
     padding: 30px 90px;
@@ -42,25 +51,20 @@ form {
 }
 
 input {
-    border-radius: 10px;
-    width: 50%;
-}
-
-#first-container,
-#last-container {
-    margin-left: 20px;
-    align-self: flex-start;
-    width: 90%;
-    display: flex;
-    justify-content: space-between;
-    line-height: 25px;
-}
-
-input {
     width: 150px;
     background-color: rgba(255, 255, 255, 0.356);
     color: white;
     outline: none;
+    border-radius: 10px;
+}
+
+.input-container {
+    margin-left: 20px;
+    align-self: flex-start;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    line-height: 25px;
 }
 
 #signature-container {

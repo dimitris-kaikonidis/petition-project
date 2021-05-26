@@ -1,0 +1,15 @@
+<h1>Login</h1>
+<form id="login-form" method="POST">
+    <div id="email-container" class="input-container">
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email" />
+    </div>
+    <div id="password-container" class="input-container">
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" />
+    </div>
+    <input type="hidden" name="_csrf" value={{csrfToken}} />
+</form>
+
+<h3>Don't have an account? Please sign up <a href="/register">here</a>.</h3>
+<button id="submit-button" form="login-form">Login</button>
