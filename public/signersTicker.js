@@ -10,7 +10,10 @@ tickerAnimation();
 signersListContainer.on("mouseenter", () => cancelAnimationFrame(animation));
 signersListContainer.on("mouseleave", () => {
     cancelAnimationFrame(animation);
-    tickerAnimation();
+    setTimeout(() => {
+        cancelAnimationFrame(animation);
+        tickerAnimation();
+    }, 5000);
 });
 
 document.getElementById("signers").addEventListener("wheel", (event) => {
@@ -19,10 +22,6 @@ document.getElementById("signers").addEventListener("wheel", (event) => {
         offsetTop = offsetTop + 5;
         signersList.css("top", `${offsetTop}px`);
     }
-    setTimeout(() => {
-        cancelAnimationFrame(animation);
-        tickerAnimation();
-    }, 3000);
 });
 
 function tickerAnimation() {
