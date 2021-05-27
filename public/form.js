@@ -1,4 +1,4 @@
-const form = $("form");
+const form = $(".required-form");
 const inputs = $("input");
 
 form.on("submit", (event) => {

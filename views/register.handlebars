@@ -1,5 +1,5 @@
 <h1>Register</h1>
-<form id="register-form" method="POST">
+<form id="register-form" class="required-form" method="POST">
     <div id="first-container" class="input-container">
         <label for="first">First Name</label>
         <input id="first" type="text" name="first" />
@@ -19,4 +19,4 @@
     <input type="hidden" name="_csrf" value={{csrfToken}} />
 </form>
 
-<button id="submit-button" form="register-form">Register</button>
+<button class="button" form="register-form">Register</button>

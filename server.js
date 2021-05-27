@@ -4,28 +4,28 @@ const hb = require("express-handlebars");
 const cookieSession = require("cookie-session");
 const secrets = require("./secrets.json");
 const csurf = require("csurf");
-const { getSignatures, addSignatures, getCount, addUser, findUser, getUserSignature } = require("./utilities/db");
+const { getSignatures, addSignatures, getCount, addUser, findUser, getUserSignature, addUserInfo, getUserInfo } = require("./utilities/db");
 const { genHas, compare } = require("./utilities/bcrypt");
-const { validate } = require("./utilities/validate");
+const { validateForm } = require("./utilities/validate");
+const { firstLetterCap } = require("./utilities/firstLetterCap");
 
 const app = express();
 
+//Handlebars
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
 
+//Security
 app.use(cookieSession({
     secret: secrets.session,
     maxAge: 1000 * 60 * 60 * 24 * 30
 }));
-
 app.use(express.urlencoded({ extended: true }));
 app.use(csurf());
-
 app.use((req, res, next) => {
     res.locals.csrfToken = req.csrfToken();
     next();
 });
-
 app.use((req, res, next) => {
     res.setHeader("X-Frame-Options", "DENY");
     next();
@@ -33,6 +33,7 @@ app.use((req, res, next) => {
 
 app.use(express.static(__dirname + '/public/'));
 
+//Valid Route Check
 app.use((req, res, next) => {
     if ("user" in req.session && (req.url.startsWith("/login") || req.url.startsWith("/register"))) {
         res.redirect("/");
@@ -40,7 +41,6 @@ app.use((req, res, next) => {
         next();
     }
 });
-
 app.use((req, res, next) => {
     if (!("user" in req.session) && !(req.url.startsWith("/login") || req.url.startsWith("/register"))) {
         res.redirect("/login");
@@ -49,23 +49,20 @@ app.use((req, res, next) => {
     }
 });
 
+//Routes
 app.get("/", (req, res) => res.redirect("petition"));
 
 app.get("/register", (req, res) => res.render("register"));
-app.post("/register", validate, (req, res) => {
+app.post("/register", validateForm, (req, res) => {
     const { first, last, email, password } = req.body;
     genHas(password)
         .then(hashedPassword => {
-            addUser(first, last, email, hashedPassword)
-                .then(() =>
-                    findUser(email)
-                        .then(result => {
-                            const { id, first, last, signature_id } = result.rows[0];
-                            console.log(result.rows[0]);
-                            req.session.user = { id, first, last, signature_id };
-                            res.redirect("/petition");
-                        })
-                        .catch(error => console.log("User not Found", error)))
+            addUser(firstLetterCap(first), firstLetterCap(last), email, hashedPassword)
+                .then(result => {
+                    const { id, first, last } = result.rows[0];
+                    req.session.user = { id, first, last };
+                    res.redirect("/profile");
+                })
                 .catch(error => {
                     console.log("Registration failed.", error);
                     res.redirect("/register");
@@ -77,15 +74,34 @@ app.post("/register", validate, (req, res) => {
         });
 });
 
+app.get("/profile", (req, res) => {
+    const { id } = req.session.user;
+    getUserInfo(id)
+        .then(result => result.rows[0] ? res.redirect("/petition") : res.render("profile"))
+        .catch(error => {
+            console.log("Couldn't retrieve user info.", error);
+            res.redirect("/petition");
+        });
+});
+app.post("/profile", (req, res) => {
+    const { age, city, url } = req.body;
+    const { id } = req.session.user;
+    addUserInfo(firstLetterCap(age), firstLetterCap(city), url, id)
+        .then(() => res.redirect("/petition"))
+        .catch(error => {
+            console.log("Something went wrong.", error);
+            res.redirect("/petition");
+        });
+});
+
 app.get("/login", (req, res) => res.render("login"));
-app.post("/login", (req, res) => {
+app.post("/login", validateForm, (req, res) => {
     const { email, password } = req.body;
     findUser(email)
         .then(result => {
             compare(password, result.rows[0].password_hash)
                 .then(() => {
                     const { id, first, last, signature_id } = result.rows[0];
-                    console.log(result.rows[0]);
                     req.session.user = { id, first, last, signature_id };
                     res.redirect("/petition");
                 })
@@ -101,26 +117,15 @@ app.post("/login", (req, res) => {
 });
 
 app.get("/petition", (req, res) => {
-    const { id, first, last } = req.session.user;
-    getUserSignature(id)
-        .then(result => {
-            if (result.rows[0].signature) {
-                req.session.signed = true;
-                res.redirect("/thanks");
-            }
-            else throw "User has not yet signed.";
-        })
-        .catch((error) => {
-            console.log(error);
-            res.render("petition", { first, last });
-        });
+    const { first, last, signature_id } = req.session.user;
+    signature_id ? res.redirect("/thanks") : res.render("petition", { first, last });
 });
-app.post("/petition", validate, (req, res) => {
+app.post("/petition", validateForm, (req, res) => {
     const { signature } = req.body;
     const { id } = req.session.user;
     addSignatures(id, signature)
-        .then(() => {
-            res.session.signed = true;
+        .then(result => {
+            req.session.user.signature_id = result.rows[0];
             res.redirect("/thanks");
         })
         .catch(error => {
@@ -130,7 +135,7 @@ app.post("/petition", validate, (req, res) => {
 });
 
 app.get("/thanks", (req, res) => {
-    if (req.session.signed) {
+    if (req.session.user.signature_id) {
         Promise.all([getCount(), getUserSignature(req.session.user.id)])
             .then(results => {
                 const count = results[0].rows[0].count;
@@ -145,8 +150,11 @@ app.get("/thanks", (req, res) => {
 });
 
 app.get("/signers", (req, res) => {
-    if (req.session.signed) {
-        getSignatures().then(result => res.render("signers", { signers: result.rows }));
+    if (req.session.user.signature_id) {
+        getSignatures()
+            .then(result => {
+                res.render("signers", { signers: result.rows });
+            });
     } else {
         res.redirect("petition");
     }

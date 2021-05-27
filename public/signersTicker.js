@@ -5,7 +5,7 @@ const crowbar = $("#crowbar");
 let offsetTop = signersList.offset().top;
 let animation;
 
-tickerAnimation();
+setTimeout(tickerAnimation, 5000);
 
 signersListContainer.on("mouseenter", () => cancelAnimationFrame(animation));
 signersListContainer.on("mouseleave", () => {

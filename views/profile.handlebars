@@ -1,0 +1,21 @@
+<h1>Tell us something about you! (Optional)</h1>
+<form id="info-form" method="POST">
+    <div id="age-container" class="input-container">
+        <label for="age">Age</label>
+        <input id="age" type="number" name="age" min="13" />
+    </div>
+    <div id="city-container" class="input-container">
+        <label for="city">City</label>
+        <input id="city" type="text" name="city" />
+    </div>
+    <div id="web-container" class="input-container">
+        <label for="url">URL</label>
+        <input id="url" type="text" name="url" />
+    </div>
+    <input type="hidden" name="_csrf" value={{csrfToken}} />
+</form>
+
+<div>
+    <a class="button" href="/petition">Skip</a>
+    <button class="button" form="info-form">Submit</button>
+</div>

@@ -1,4 +1,4 @@
-module.exports.validate = (req, res, next) => {
+module.exports.validateForm = (req, res, next) => {
     const inputs = Object.keys(req.body);
     let ok = true;
     inputs.forEach(input => {
