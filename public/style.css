@@ -132,6 +132,10 @@ input {
     height: 50px;
     background-color: white;
     border-radius: 10px;
+    position: absolute;
+    bottom: 75px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 a.button {
@@ -167,10 +171,13 @@ a.button {
 }
 
 #signers > ul {
+    padding: 0 10px;
+    margin: 0;
     position: relative;
-    z-index: 1;
     list-style-type: none;
-    padding: 20px 100px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     z-index: 0;
 }
 
@@ -200,13 +207,13 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (min-width: 900px) {
 }
 
 @media screen and (max-width: 768px) {
     h1 {
         padding: 25px 0;
-        margin: 0 100px;
+        margin-top: 25px;
     }
 
     h2 {
@@ -215,7 +222,7 @@ input[type="number"] {
         width: 300px;
     }
 
-    h3 {
+    #register-login {
         text-align: center;
         width: 60%;
     }
@@ -234,14 +241,11 @@ input[type="number"] {
     }
 
     input {
-        width: 80%;
         height: 30px;
     }
 
     .input-container {
-        text-align: center;
-        display: inline-block;
-        margin: 0;
+        line-height: 30px;
     }
 
     #signature-container {
@@ -252,13 +256,6 @@ input[type="number"] {
     #signature-canvas {
         width: 250px;
         height: 250px;
-    }
-
-    .button {
-        position: absolute;
-        bottom: 75px;
-        left: 50%;
-        transform: translateX(-50%);
     }
 
     #skip-button {
@@ -284,10 +281,6 @@ input[type="number"] {
         height: 200px;
     }
 
-    #signers {
-        width: 90%;
-    }
-
     #signers > ul > li {
         text-align: center;
         white-space: normal;
@@ -297,9 +290,7 @@ input[type="number"] {
 
 @media screen and (max-width: 600px) {
     h1 {
-        padding: 25px 0;
         margin: 0;
-        margin-top: 25px;
     }
 
     h2 {
@@ -308,7 +299,7 @@ input[type="number"] {
         width: 300px;
     }
 
-    h3 {
+    #register-login {
         text-align: center;
         width: 60%;
     }
@@ -321,11 +312,11 @@ input[type="number"] {
     form {
         margin-top: 50px;
         width: 50%;
-        height: 200px;
     }
 
     #edit-form {
-        height: 400px;
+        margin-top: -25px;
+        height: 500px;
     }
 
     #petition-form {
@@ -384,10 +375,6 @@ input[type="number"] {
         height: 200px;
     }
 
-    #signers {
-        width: 90%;
-    }
-
     #signers > ul > li {
         text-align: center;
         white-space: normal;
@@ -401,7 +388,8 @@ input[type="number"] {
     }
 
     form {
-        width: 60%;
+        height: 270px;
+        margin-top: 50px;
     }
 }
 
