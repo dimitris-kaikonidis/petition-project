@@ -1,8 +1,6 @@
 <h1>We want Half-Life λ&sup3; now!</h1>
 <form id="petition-form" class="required-form" method="POST">
-    <div>
-        <h2>{{first}} {{last}}</h2>
-    </div>
+    <h2>{{first}} {{last}}</h2>
     <div id="signature-container">
         <label for="signature">Your Signature</label>
         <input id="signature" type="hidden" name="signature" />
@@ -11,7 +9,7 @@
         <canvas id="signature-canvas"></canvas>
         <button id="clear-button" type="button">clear</button>
     </div>
-    <input type="hidden" name="_csrf" value={{csrfToken}} />
+    <input type="hidden" name="_csrf" value="{{csrfToken}}" />
 </form>
 
 <button class="button" form="petition-form">Submit</button>

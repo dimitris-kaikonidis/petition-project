@@ -12,10 +12,10 @@
         <label for="url">URL</label>
         <input id="url" type="text" name="url" />
     </div>
-    <input type="hidden" name="_csrf" value={{csrfToken}} />
+    <input type="hidden" name="_csrf" value="{{csrfToken}}" />
 </form>
 
-<div>
+<div id="skip-button">
     <a class="button" href="/petition">Skip</a>
-    <button class="button" form="info-form">Submit</button>
 </div>
+<button class="button" form="info-form">Submit</button>

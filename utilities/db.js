@@ -55,7 +55,14 @@ module.exports.addUserInfo = (age, city, url, id) => {
     );
 };
 
-module.exports.getUserInfo = (id) => db.query(`SELECT * FROM user_profiles WHERE user_id=$1`, [id]);
+module.exports.getUserInfo = (id) => {
+    return db.query(
+        `
+        SELECT first, last, email, age, city, url FROM users
+        LEFT JOIN user_profiles ON user_profiles.user_id=users.id WHERE users.id=$1
+        `, [id]
+    );
+};
 
 module.exports.updateUserCreds = (id, first, last, email) => {
     return db.query(

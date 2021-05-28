@@ -109,11 +109,12 @@ app.post("/login", validateForm, (req, res) => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    res.render("login", { email, wrong: true });
                 });
         })
         .catch((error) => {
             console.log("User not found.", error);
-            res.render("login", { wrong: true });
+            res.render("login", { email, wrong: true });
         });
 });
 
@@ -164,15 +165,15 @@ app.get("/signers", (req, res) => {
 });
 
 app.get("/edit-profile", (req, res) => {
-    const { id, first, last, email } = req.session.user;
+    const { id } = req.session.user;
     db.getUserInfo(id)
         .then(result => {
-            const { age, city, url } = result.rows[0];
+            const { first, last, email, age, city, url } = result.rows[0];
             res.render("edit_profile", { id, first, last, email, age, city, url });
         })
         .catch(err => {
             console.log(err);
-            res.redirect("/edit-profile");
+            res.render("edit_profile");
         });
 });
 app.post("/edit-profile", (req, res) => {

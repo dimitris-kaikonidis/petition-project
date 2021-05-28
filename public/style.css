@@ -200,3 +200,99 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
 }
+
+@media screen and (max-width: 600px) {
+    h1 {
+        padding: 25px 0;
+        margin: 0 100px;
+    }
+
+    h2 {
+        margin: 0;
+        text-align: center;
+        width: 300px;
+    }
+
+    h3 {
+        text-align: center;
+        width: 60%;
+    }
+
+    #gordon {
+        width: 150px;
+        height: 150px;
+    }
+
+    form {
+        width: 30%;
+        height: 200px;
+    }
+
+    #edit-form {
+        height: 400px;
+    }
+
+    #petition-form {
+        height: 360px;
+    }
+
+    input {
+        width: 100%;
+    }
+
+    .input-container {
+        text-align: center;
+        display: inline-block;
+        margin: 0;
+    }
+
+    #signature-container {
+        margin: 0;
+        text-align: center;
+    }
+
+    #signature-canvas {
+        width: 250px;
+        height: 250px;
+    }
+
+    .button {
+        position: absolute;
+        bottom: 75px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    #skip-button {
+        margin-top: 130px;
+    }
+
+    #skip-button > a {
+        position: initial;
+    }
+
+    #thanks {
+        text-align: center;
+    }
+
+    #user-signature {
+        margin-top: 50px;
+        height: 300px;
+        display: flex;
+        align-items: center;
+    }
+
+    #user-signature > img {
+        height: 200px;
+    }
+
+    #signers {
+        width: 90%;
+    }
+
+    #signers > ul > li {
+        text-align: center;
+        white-space: normal;
+        width: 200px;
+    }
+}
