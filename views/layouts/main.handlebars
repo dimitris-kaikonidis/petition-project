@@ -11,6 +11,9 @@
         <link rel="stylesheet" href="/style.css" />
     </head>
     <body>
+        {{#if id}}
+            <a href="/logout"><img id="logout-button" alt="logout" /></a>
+        {{/if}}
         <img id="gordon" />
         <main>
             {{{body}}}

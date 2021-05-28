@@ -1,6 +1,6 @@
 const spicedPG = require('spiced-pg');
 
-const db = spicedPG("postgres:dim107:postgres@localhost:5432/petition");
+const db = spicedPG(process.env.DATABASE_URL || "postgres:dim107:postgres@localhost:5432/petition");
 
 module.exports.addSignatures = (id, signature) => {
     return db.query(
@@ -56,3 +56,26 @@ module.exports.addUserInfo = (age, city, url, id) => {
 };
 
 module.exports.getUserInfo = (id) => db.query(`SELECT * FROM user_profiles WHERE user_id=$1`, [id]);
+
+module.exports.updateUserCreds = (id, first, last, email) => {
+    return db.query(
+        `
+        UPDATE users 
+        SET first=$2, last=$3, email=$4
+        WHERE id=$1
+        `, [id, first, last, email]
+    );
+};
+
+module.exports.updateUserPass = (id, hashedPassword) => db.query(`UPDATE users SET password_hash=$2 WHERE id=$1`, [id, hashedPassword]);
+
+module.exports.updateUserInfo = (id, age, city, url) => {
+    db.query(
+        `
+        INSERT INTO user_profiles (user_id, age, city, url)
+        VALUES ($1, $2, $3, $4)
+        ON CONFLICT(user_id) DO
+        UPDATE SET age=$2, city=$3, url=$4
+        `, [id, age, city, url]
+    );
+};

@@ -21,6 +21,15 @@ h3 > a {
     color: darkorange;
 }
 
+#logout-button {
+    content: url("/assets/logout.svg");
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 10px;
+    right: 10px;
+}
+
 #gordon {
     content: url("/assets/gordon.png");
     position: absolute;

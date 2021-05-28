@@ -2,12 +2,12 @@ const chalk = require("chalk");
 const express = require("express");
 const hb = require("express-handlebars");
 const cookieSession = require("cookie-session");
-const secrets = require("./secrets.json");
 const csurf = require("csurf");
-const { getSignatures, addSignatures, getCount, addUser, findUser, getUserSignature, addUserInfo, getUserInfo } = require("./utilities/db");
-const { genHas, compare } = require("./utilities/bcrypt");
+const db = require("./utilities/db");
+const { genHash, compare } = require("./utilities/bcrypt");
 const { validateForm } = require("./utilities/validate");
 const { firstLetterCap } = require("./utilities/firstLetterCap");
+const sessionSecret = process.env.SESSION_SECRET || require('./secrets.json').SESSION_SECRET;
 
 const app = express();
 
@@ -17,7 +17,7 @@ app.set("view engine", "handlebars");
 
 //Security
 app.use(cookieSession({
-    secret: secrets.session,
+    secret: sessionSecret,
     maxAge: 1000 * 60 * 60 * 24 * 30
 }));
 app.use(express.urlencoded({ extended: true }));
@@ -55,9 +55,9 @@ app.get("/", (req, res) => res.redirect("petition"));
 app.get("/register", (req, res) => res.render("register"));
 app.post("/register", validateForm, (req, res) => {
     const { first, last, email, password } = req.body;
-    genHas(password)
+    genHash(password)
         .then(hashedPassword => {
-            addUser(firstLetterCap(first), firstLetterCap(last), email, hashedPassword)
+            db.addUser(firstLetterCap(first), firstLetterCap(last), email, hashedPassword)
                 .then(result => {
                     const { id, first, last } = result.rows[0];
                     req.session.user = { id, first, last };
@@ -76,8 +76,8 @@ app.post("/register", validateForm, (req, res) => {
 
 app.get("/profile", (req, res) => {
     const { id } = req.session.user;
-    getUserInfo(id)
-        .then(result => result.rows[0] ? res.redirect("/petition") : res.render("profile"))
+    db.getUserInfo(id)
+        .then(result => result.rows[0] ? res.redirect("/petition") : res.render("profile", { id }))
         .catch(error => {
             console.log("Couldn't retrieve user info.", error);
             res.redirect("/petition");
@@ -86,7 +86,7 @@ app.get("/profile", (req, res) => {
 app.post("/profile", (req, res) => {
     const { age, city, url } = req.body;
     const { id } = req.session.user;
-    addUserInfo(firstLetterCap(age), firstLetterCap(city), url, id)
+    db.addUserInfo(firstLetterCap(age), firstLetterCap(city), url, id)
         .then(() => res.redirect("/petition"))
         .catch(error => {
             console.log("Something went wrong.", error);
@@ -97,16 +97,17 @@ app.post("/profile", (req, res) => {
 app.get("/login", (req, res) => res.render("login"));
 app.post("/login", validateForm, (req, res) => {
     const { email, password } = req.body;
-    findUser(email)
+    db.findUser(email)
         .then(result => {
             compare(password, result.rows[0].password_hash)
-                .then(() => {
-                    const { id, first, last, signature_id } = result.rows[0];
-                    req.session.user = { id, first, last, signature_id };
+                .then(pass => {
+                    if (!pass) throw "Wrong password.";
+                    const { id, first, last, email, signature_id } = result.rows[0];
+                    req.session.user = { id, first, last, email, signature_id };
                     res.redirect("/petition");
                 })
                 .catch((error) => {
-                    console.log("Wrong password.", error);
+                    console.log(error);
                     res.redirect("/login");
                 });
         })
@@ -117,13 +118,13 @@ app.post("/login", validateForm, (req, res) => {
 });
 
 app.get("/petition", (req, res) => {
-    const { first, last, signature_id } = req.session.user;
-    signature_id ? res.redirect("/thanks") : res.render("petition", { first, last });
+    const { id, first, last, signature_id } = req.session.user;
+    signature_id ? res.redirect("/thanks") : res.render("petition", { id, first, last });
 });
 app.post("/petition", validateForm, (req, res) => {
     const { signature } = req.body;
     const { id } = req.session.user;
-    addSignatures(id, signature)
+    db.addSignatures(id, signature)
         .then(result => {
             req.session.user.signature_id = result.rows[0];
             res.redirect("/thanks");
@@ -135,12 +136,13 @@ app.post("/petition", validateForm, (req, res) => {
 });
 
 app.get("/thanks", (req, res) => {
+    const { id } = req.session.user;
     if (req.session.user.signature_id) {
-        Promise.all([getCount(), getUserSignature(req.session.user.id)])
+        Promise.all([db.getCount(), db.getUserSignature(req.session.user.id)])
             .then(results => {
                 const count = results[0].rows[0].count;
                 const img = results[1].rows[0].signature;
-                res.render("thanks", { count, img });
+                res.render("thanks", { id, count, img });
             })
             .catch(error => {
                 console.log("Couldn't get signature.", error);
@@ -150,14 +152,55 @@ app.get("/thanks", (req, res) => {
 });
 
 app.get("/signers", (req, res) => {
+    const { id } = req.session.user;
     if (req.session.user.signature_id) {
-        getSignatures()
+        db.getSignatures()
             .then(result => {
-                res.render("signers", { signers: result.rows });
+                res.render("signers", { id, signers: result.rows });
             });
     } else {
         res.redirect("petition");
     }
+});
+
+app.get("/edit-profile", (req, res) => {
+    const { id, first, last, email } = req.session.user;
+    db.getUserInfo(id)
+        .then(result => {
+            const { age, city, url } = result.rows[0];
+            res.render("edit_profile", { id, first, last, email, age, city, url });
+        })
+        .catch(err => {
+            console.log(err);
+            res.redirect("/edit-profile");
+        });
+});
+app.post("/edit-profile", (req, res) => {
+    const { id, signature_id } = req.session.user;
+    const { first, last, email, password, age, city, url } = req.body;
+    let updateUserCredsPromise;
+    if (first && last && email) {
+        updateUserCredsPromise = db.updateUserCreds(id, first, last, email);
+    }
+    let updateUserPassPromise;
+    if (password) {
+        updateUserPassPromise = genHash(password).then(hashedPassword => db.updateUserPass(id, hashedPassword));
+    }
+
+    Promise.all([updateUserCredsPromise, updateUserPassPromise, db.updateUserInfo(id, age, city, url)])
+        .then(() => {
+            req.session.user = { id, first, last, email, signature_id };
+            res.redirect("/thanks");
+        })
+        .catch(err => {
+            console.log("Couldn't update profile", err);
+            res.redirect("/edit-profile");
+        });
+});
+
+app.get("/logout", (req, res) => {
+    req.session = null;
+    res.redirect("/login");
 });
 
 const PORT = process.env.PORT || 8080;
