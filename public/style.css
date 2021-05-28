@@ -21,12 +21,29 @@ h3 > a {
     color: darkorange;
 }
 
+.error-message {
+    color: darkorange;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 #logout-button {
     content: url("/assets/logout.svg");
     position: absolute;
     width: 30px;
     height: 30px;
     top: 10px;
+    right: 10px;
+}
+
+#edit-profile-button {
+    content: url("/assets/user.png");
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 50px;
     right: 10px;
 }
 

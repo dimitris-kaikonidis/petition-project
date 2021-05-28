@@ -105,15 +105,15 @@ app.post("/login", validateForm, (req, res) => {
                     const { id, first, last, email, signature_id } = result.rows[0];
                     req.session.user = { id, first, last, email, signature_id };
                     res.redirect("/petition");
+
                 })
                 .catch((error) => {
                     console.log(error);
-                    res.redirect("/login");
                 });
         })
         .catch((error) => {
             console.log("User not found.", error);
-            res.redirect("/login");
+            res.render("login", { wrong: true });
         });
 });
 

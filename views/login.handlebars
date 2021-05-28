@@ -1,4 +1,7 @@
 <h1>Login</h1>
+{{#if wrong}}
+    <h4 class="error-message">Something went wrong. Please try again.</h4>
+{{/if}}
 <form id="login-form" class="required-form" method="POST">
     <div id="email-container" class="input-container">
         <label for="email">Email</label>
