@@ -52,7 +52,7 @@ app.use((req, res, next) => {
 //Routes
 app.get("/", (req, res) => res.redirect("petition"));
 
-app.get("/register", (req, res) => res.render("register"));
+app.get("/register", (req, res) => res.render("register", { css: "register.css" }));
 app.post("/register", validateForm, (req, res) => {
     const { first, last, email, password } = req.body;
     genHash(password)
@@ -61,7 +61,7 @@ app.post("/register", validateForm, (req, res) => {
                 .then(result => {
                     const { id, first, last } = result.rows[0];
                     req.session.user = { id, first, last };
-                    res.redirect("/profile");
+                    res.render("profile", { css: "profile.css" });
                 })
                 .catch(error => {
                     console.log("Registration failed.", error);
@@ -77,7 +77,7 @@ app.post("/register", validateForm, (req, res) => {
 app.get("/profile", (req, res) => {
     const { id } = req.session.user;
     db.getUserInfo(id)
-        .then(result => result.rows[0] ? res.redirect("/petition") : res.render("profile", { id }))
+        .then(result => result.rows[0] ? res.redirect("/petition") : res.render("profile", { css: "profile.css", id }))
         .catch(error => {
             console.log("Couldn't retrieve user info.", error);
             res.redirect("/petition");
@@ -94,7 +94,7 @@ app.post("/profile", (req, res) => {
         });
 });
 
-app.get("/login", (req, res) => res.render("login"));
+app.get("/login", (req, res) => res.render("login", { css: "login.css" }));
 app.post("/login", validateForm, (req, res) => {
     const { email, password } = req.body;
     db.findUser(email)
@@ -109,18 +109,18 @@ app.post("/login", validateForm, (req, res) => {
                 })
                 .catch((error) => {
                     console.log(error);
-                    res.render("login", { email, wrong: true });
+                    res.render("login", { css: "login.css", email, wrong: true });
                 });
         })
         .catch((error) => {
             console.log("User not found.", error);
-            res.render("login", { email, wrong: true });
+            res.render("login", { css: "login.css", email, wrong: true });
         });
 });
 
 app.get("/petition", (req, res) => {
     const { id, first, last, signature_id } = req.session.user;
-    signature_id ? res.redirect("/thanks") : res.render("petition", { id, first, last });
+    signature_id ? res.redirect("/thanks") : res.render("petition", { css: "petition.css", id, first, last });
 });
 app.post("/petition", validateForm, (req, res) => {
     const { signature } = req.body;
@@ -143,7 +143,7 @@ app.get("/thanks", (req, res) => {
             .then(results => {
                 const count = results[0].rows[0].count;
                 const img = results[1].rows[0].signature;
-                res.render("thanks", { id, count, img });
+                res.render("thanks", { css: "thanks.css", id, count, img });
             })
             .catch(error => {
                 console.log("Couldn't get signature.", error);
@@ -157,7 +157,7 @@ app.get("/signers", (req, res) => {
     if (req.session.user.signature_id) {
         db.getSignatures()
             .then(result => {
-                res.render("signers", { id, signers: result.rows });
+                res.render("signers", { css: "signers.css", id, signers: result.rows });
             });
     } else {
         res.redirect("petition");
@@ -169,16 +169,16 @@ app.get("/edit-profile", (req, res) => {
     db.getUserInfo(id)
         .then(result => {
             const { first, last, email, age, city, url } = result.rows[0];
-            res.render("edit_profile", { id, first, last, email, age, city, url });
+            res.render("edit_profile", { css: "edit_profile.css", id, first, last, email, age, city, url });
         })
         .catch(err => {
             console.log(err);
-            res.render("edit_profile");
+            res.render("edit_profile", { css: "edit_profile.css" });
         });
 });
 app.post("/edit-profile", (req, res) => {
     const { id, signature_id } = req.session.user;
-    const { first, last, email, password, age, city, url } = req.body;
+    const { first, last, email, password, age, city, url } = req.body || null;
     let updateUserCredsPromise;
     if (first && last && email) {
         updateUserCredsPromise = db.updateUserCreds(id, first, last, email);

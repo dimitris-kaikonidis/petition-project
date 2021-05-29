@@ -1,0 +1,38 @@
+#signers {
+    height: 100vh;
+    align-self: flex-end;
+    margin-right: 50px;
+    background-color: rgba(0, 0, 0, 0.356);
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#signers > ul {
+    padding: 0 10px;
+    top: 30%;
+    margin: 0;
+    position: relative;
+    list-style-type: none;
+    z-index: 0;
+}
+
+#signers > ul > li {
+    white-space: nowrap;
+}
+
+#signers > h3 {
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    z-index: 1;
+}
+
+.off {
+    visibility: hidden;
+}
+
+#crowbar {
+    margin-top: 45vh;
+}

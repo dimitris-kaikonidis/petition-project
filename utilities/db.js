@@ -77,6 +77,7 @@ module.exports.updateUserCreds = (id, first, last, email) => {
 module.exports.updateUserPass = (id, hashedPassword) => db.query(`UPDATE users SET password_hash=$2 WHERE id=$1`, [id, hashedPassword]);
 
 module.exports.updateUserInfo = (id, age, city, url) => {
+    if (typeof age !== "number") age = null;
     db.query(
         `
         INSERT INTO user_profiles (user_id, age, city, url)
