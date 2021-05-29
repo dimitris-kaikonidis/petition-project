@@ -40,6 +40,35 @@ clearButton.on("mouseup", () => {
     signatureVal.val("");
 });
 
+signature.on("touchstart", event => {
+    signature.removeClass("required");
+    draw = true;
+    prevCoords = {
+        x: event.originalEvent.touches[0].pageX - signature.offset().left,
+        y: event.originalEvent.touches[0].pageY - signature.offset().top
+    };
+});
+
+signature.on("touchmove", event => {
+    if (draw) {
+        mouseCoords = {
+            x: event.originalEvent.touches[0].pageX - signature.offset().left,
+            y: event.originalEvent.touches[0].pageY - signature.offset().top
+        };
+        sign();
+    }
+});
+
+signature.on("touchend", () => {
+    draw = false;
+    signatureVal.val(signature[0].toDataURL());
+});
+
+clearButton.on("touchend", () => {
+    ctx.clearRect(0, 0, signature.width(), signature.height());
+    signatureVal.val("");
+});
+
 function sign() {
     ctx.beginPath();
     ctx.moveTo(prevCoords.x, prevCoords.y);
