@@ -18,10 +18,21 @@ module.exports.getUserSignature = (id) => db.query(`SELECT signature FROM signat
 module.exports.getSignatures = () => {
     return db.query(
         `
-        SELECT first, last, age, city, url FROM users 
+        SELECT first, last, age, city, url FROM users
         RIGHT JOIN signatures ON signatures.user_id=users.id
         LEFT JOIN user_profiles ON user_profiles.user_id=users.id;
         `
+    );
+};
+
+module.exports.getSignaturesByCity = (city) => {
+    return db.query(
+        `
+        SELECT first, last, age, city, url FROM users
+        RIGHT JOIN signatures ON signatures.user_id=users.id
+        LEFT JOIN user_profiles ON user_profiles.user_id=users.id 
+        WHERE LOWER(city) = LOWER($1);
+        `, [city]
     );
 };
 

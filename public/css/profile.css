@@ -27,6 +27,14 @@ input {
     line-height: 25px;
 }
 
+#skip-submit-buttons {
+    position: absolute;
+    bottom: 75px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+}
+
 .button {
     font-family: "Special Elite", serif;
     font-size: 20px;
@@ -34,8 +42,14 @@ input {
     height: 50px;
     background-color: white;
     border-radius: 10px;
-    position: absolute;
-    bottom: 75px;
-    left: 50%;
-    transform: translateX(-50%);
+}
+
+@media screen and (max-width: 600px) {
+    form {
+        width: 300px;
+    }
+
+    .input-container {
+        width: 80%;
+    }
 }

@@ -75,9 +75,13 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
-/* @media screen and (min-width: 900px) {
+@media screen and (max-width: 900px) {
+    body {
+        background-position: center;
+    }
 }
 
+/*
 @media screen and (max-width: 768px) {
     h1 {
         padding: 25px 0;
@@ -266,10 +270,10 @@ input[type="number"] {
         width: 90px;
         height: 90px;
     }
-}
+}*/
 
 @media (pointer: none), (pointer: coarse) {
     #gordon {
         visibility: hidden;
     }
-} */
+}

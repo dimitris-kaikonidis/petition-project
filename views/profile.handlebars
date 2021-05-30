@@ -1,4 +1,4 @@
-<h1>Tell us something about you! (Optional)</h1>
+<h1>Tell us something about you!</h1>
 <form id="info-form" method="POST">
     <div id="age-container" class="input-container">
         <label for="age">Age</label>
@@ -15,5 +15,7 @@
     <input type="hidden" name="_csrf" value="{{csrfToken}}" />
 </form>
 
-<button class="button" form="info-form" type="reset">Skip</button>
-<button class="button" form="info-form" type="submit">Submit</button>
+<div id="skip-submit-buttons">
+    <button class="button" form="info-form" type="reset">Skip</button>
+    <button class="button" form="info-form" type="submit">Submit</button>
+</div>

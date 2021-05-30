@@ -156,11 +156,22 @@ app.get("/signers", (req, res) => {
     const { id } = req.session.user;
     if (req.session.user.signature_id) {
         db.getSignatures()
-            .then(result => {
-                res.render("signers", { css: "signers.css", id, signers: result.rows });
-            });
+            .then(result => res.render("signers", { css: "signers.css", id, signers: result.rows }))
+            .catch(error => res.redirect("/thanks"));
     } else {
-        res.redirect("petition");
+        res.redirect("/petition");
+    }
+});
+
+app.get("/signers/:city", (req, res) => {
+    const { id } = req.session.user;
+    if (req.session.user.signature_id) {
+        console.log(req.params);
+        db.getSignaturesByCity(req.params.city)
+            .then(result => res.render("signers", { css: "signers.css", id, signers: result.rows }))
+            .catch(error => res.redirect("/thanks"));
+    } else {
+        res.redirect("/petition");
     }
 });
 

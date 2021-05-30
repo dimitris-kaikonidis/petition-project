@@ -43,3 +43,13 @@ input {
 h3 > a {
     color: darkorange;
 }
+
+@media screen and (max-width: 600px) {
+    form {
+        width: 300px;
+    }
+
+    .input-container {
+        width: 80%;
+    }
+}
