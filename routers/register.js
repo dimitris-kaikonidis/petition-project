@@ -14,6 +14,7 @@ router.post("/register", validateForm, (req, res) => {
                 .then(result => {
                     const { id, first, last } = result.rows[0];
                     req.session.user = { id, first, last };
+                    req.session.newUser = true;
                     res.redirect("profile");
                 })
                 .catch(error => {

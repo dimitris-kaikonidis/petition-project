@@ -6,7 +6,13 @@ const router = express.Router();
 router.get("/profile", (req, res) => {
     const { id } = req.session.user;
     getUserInfo(id)
-        .then(result => res.render("profile", { css: "profile.css", id }))
+        .then(result => {
+            if (req.session.newUser) {
+                req.session.newUser = false;
+                res.render("profile", { css: "profile.css", id });
+            }
+            else res.redirect("edit-profile");
+        })
         .catch(error => {
             console.log("Couldn't retrieve user info.", error);
             res.redirect("/petition");
