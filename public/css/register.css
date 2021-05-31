@@ -34,10 +34,6 @@ input {
     height: 50px;
     background-color: white;
     border-radius: 10px;
-    position: absolute;
-    bottom: 75px;
-    left: 50%;
-    transform: translateX(-50%);
 }
 
 h3 > a {

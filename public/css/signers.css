@@ -11,7 +11,7 @@
 
 #signers > ul {
     padding: 0 10px;
-    top: 30%;
+    top: 400px;
     margin: 0;
     position: relative;
     list-style-type: none;
@@ -19,6 +19,7 @@
 }
 
 #signers > ul > li {
+    min-width: 300px;
     white-space: nowrap;
 }
 

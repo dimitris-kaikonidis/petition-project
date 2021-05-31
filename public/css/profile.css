@@ -28,10 +28,6 @@ input {
 }
 
 #skip-submit-buttons {
-    position: absolute;
-    bottom: 75px;
-    left: 50%;
-    transform: translateX(-50%);
     display: flex;
 }
 
@@ -42,6 +38,33 @@ input {
     height: 50px;
     background-color: white;
     border-radius: 10px;
+}
+
+a.button {
+    height: 48.6px;
+    appearance: auto;
+    text-rendering: auto;
+    color: -internal-light-dark(black, white);
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: center;
+    align-items: flex-start;
+    cursor: default;
+    background-color: -internal-light-dark(rgb(239, 239, 239), rgb(59, 59, 59));
+    box-sizing: border-box;
+    padding: 1px 6px;
+    border-width: 2px;
+    border-style: outset;
+    border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+    border-image: initial;
+    border: 2px;
+    display: block;
+    color: black;
+    line-height: 48px;
 }
 
 @media screen and (max-width: 600px) {
