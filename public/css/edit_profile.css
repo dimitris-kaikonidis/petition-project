@@ -39,3 +39,13 @@ input {
     left: 50%;
     transform: translateX(-50%);
 }
+
+@media screen and (max-width: 600px) {
+    form {
+        width: 300px;
+    }
+
+    .input-container {
+        width: 80%;
+    }
+}

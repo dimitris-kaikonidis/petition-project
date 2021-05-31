@@ -42,7 +42,7 @@ app.use(express.static(__dirname + '/public/'));
 //Valid Route Check
 app.use((req, res, next) => {
     if ("user" in req.session && (req.url.startsWith("/login") || req.url.startsWith("/register"))) {
-        res.redirect("/");
+        res.redirect("/petition");
     } else {
         next();
     }
@@ -56,7 +56,7 @@ app.use((req, res, next) => {
 });
 
 //Routes
-app.get("/", (req, res) => res.redirect("petition"));
+app.get("/", (req, res) => res.redirect("/login"));
 
 app.use(register);
 app.use(profile);
@@ -67,5 +67,9 @@ app.use(signers);
 app.use(editProfile);
 app.use(logout);
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`Running Server @ ${chalk.blue(`http://localhost:${PORT}`)}`));
+if (require.main === module) {
+    const PORT = process.env.PORT || 8080;
+    app.listen(PORT, () => console.log(`Running Server @ ${chalk.blue(`http://localhost:${PORT}`)}`));
+}
+
+module.exports = app;
