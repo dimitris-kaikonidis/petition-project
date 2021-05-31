@@ -6,6 +6,7 @@ body {
     background-image: url("./assets/city17.jpg");
     background-repeat: no-repeat;
     background-size: cover;
+    background-attachment: fixed;
     font-family: "Special Elite", serif;
 }
 
@@ -86,7 +87,7 @@ input[type="number"] {
 
 @media screen and (max-width: 900px) {
     body {
-        background-position: center;
+        background-position: center center;
     }
 }
 
