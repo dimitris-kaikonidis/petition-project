@@ -31,6 +31,7 @@ form > div {
     cursor: url("./assets/pen.cur"), auto;
     border-color: rgba(0, 0, 0, 0);
     border-style: solid;
+    touch-action: none;
 }
 
 #clear-button {

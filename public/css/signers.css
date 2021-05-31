@@ -1,7 +1,6 @@
 #signers {
     height: 100vh;
-    align-self: flex-end;
-    margin-right: 50px;
+    margin: 0 50px;
     background-color: rgba(0, 0, 0, 0.356);
     color: white;
     text-align: center;
@@ -19,7 +18,7 @@
 }
 
 #signers > ul > li {
-    min-width: 300px;
+    min-width: 240px;
     white-space: nowrap;
 }
 
@@ -36,4 +35,11 @@
 
 #crowbar {
     margin-top: 45vh;
+}
+
+@media screen and (max-width: 600px) {
+    #signers > h3 {
+        left: 50%;
+        transform: translateX(-50%);
+    }
 }
