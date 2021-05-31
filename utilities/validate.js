@@ -10,3 +10,8 @@ module.exports.validateForm = (req, res, next) => {
     if (ok) next();
     else res.redirect(req.url);
 };
+
+module.exports.requireSignature = (req, res, next) => {
+    if (!req.session.user.signature_id) res.redirect("/petition");
+    else next();
+};
