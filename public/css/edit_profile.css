@@ -3,13 +3,16 @@ form {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
     height: 300px;
     width: 400px;
     padding: 10px 30px;
     background-color: rgba(0, 0, 0, 0.356);
     border-radius: 30px;
     color: white;
+}
+
+form > div {
+    margin-bottom: 10px;
 }
 
 input {

@@ -20,6 +20,10 @@ form {
     color: white;
 }
 
+form > div {
+    margin-bottom: 10px;
+}
+
 input {
     width: 150px;
     background-color: rgba(255, 255, 255, 0.356);
