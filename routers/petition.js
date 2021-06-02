@@ -1,5 +1,6 @@
 const { addSignatures } = require("../utilities/db");
 const { validateForm } = require("../utilities/validate");
+const redis = require("../utilities/redis");
 const express = require("express");
 const router = express.Router();
 
@@ -12,6 +13,7 @@ router.post("/petition", validateForm, (req, res) => {
     const { id } = req.session.user;
     addSignatures(id, signature)
         .then(result => {
+            redis.DEL("users");
             req.session.user.signature_id = result.rows[0];
             res.redirect("/thanks");
         })

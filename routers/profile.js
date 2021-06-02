@@ -1,27 +1,24 @@
-const { addUserInfo, getUserInfo } = require("../utilities/db");
+const { addUserInfo } = require("../utilities/db");
 const { firstLetterCap } = require("../utilities/firstLetterCap");
+const redis = require("../utilities/redis");
 const express = require("express");
 const router = express.Router();
 
+
 router.get("/profile", (req, res) => {
-    const { id } = req.session.user;
-    getUserInfo(id)
-        .then(result => {
-            if (req.session.newUser) {
-                req.session.newUser = false;
-                res.render("profile", { css: "profile.css", id });
-            }
-            else res.redirect("edit-profile");
-        })
-        .catch(error => {
-            console.log("Couldn't retrieve user info.", error);
-            res.redirect("/petition");
-        });
+    if (req.session.newUser) {
+        req.session.newUser = false;
+        res.render("profile", { css: "profile.css" });
+    }
+    else res.redirect("edit-profile");
 });
 router.post("/profile", (req, res) => {
-    const { age, city, url } = req.body;
+    const { city, url } = req.body || null;
+    let { age } = req.body;
+    typeof age === "number" ? age : age = null;
     const { id } = req.session.user;
-    addUserInfo(firstLetterCap(age), firstLetterCap(city), url, id)
+    redis.DEL(city);
+    addUserInfo(age, firstLetterCap(city), url, id)
         .then(() => res.redirect("/petition"))
         .catch(error => {
             console.log("Something went wrong.", error);

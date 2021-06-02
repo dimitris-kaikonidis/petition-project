@@ -1,5 +1,6 @@
 const { genHash } = require("bcryptjs");
 const { getUserInfo, updateUserCreds, updateUserPass, updateUserInfo } = require("../utilities/db");
+const redis = require("../utilities/redis");
 const express = require("express");
 const router = express.Router();
 
@@ -8,6 +9,7 @@ router.get("/edit-profile", (req, res) => {
     getUserInfo(id)
         .then(result => {
             const { first, last, email, age, city, url } = result.rows[0];
+            req.session.city = city;
             res.render("edit_profile", { css: "edit_profile.css", id, first, last, email, age, city, url });
         })
         .catch(err => {
@@ -18,6 +20,10 @@ router.get("/edit-profile", (req, res) => {
 router.post("/edit-profile", (req, res) => {
     const { id, signature_id } = req.session.user;
     const { first, last, email, password, age, city, url } = req.body || null;
+    if (req.session.city != city) {
+        redis.DEL(req.session.city);
+        redis.DEL(city);
+    }
     let updateUserCredsPromise;
     if (first && last && email) {
         updateUserCredsPromise = updateUserCreds(id, first, last, email);
