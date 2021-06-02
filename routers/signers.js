@@ -34,7 +34,7 @@ router.get("/signers/:city", requireSignature, (req, res) => {
         } else {
             getSignaturesByCity(req.params.city)
                 .then(result => {
-                    redis.SETEX("users", expires, JSON.stringify(result.rows));
+                    redis.SETEX(req.params.city, expires, JSON.stringify(result.rows));
                     res.render("signers", { css: "signers.css", id, signers: result.rows });
                 })
                 .catch(error => res.redirect("/thanks"));
