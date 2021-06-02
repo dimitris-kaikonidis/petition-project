@@ -11,7 +11,7 @@ const profile = require("./routers/profile");
 const login = require("./routers/login");
 const petition = require("./routers/petition");
 const thanks = require("./routers/thanks");
-const signers = require("./routers/singers");
+const signers = require("./routers/signers");
 const editProfile = require("./routers/editProfile");
 const logout = require("./routers/logout");
 
