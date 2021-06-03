@@ -17,6 +17,15 @@ signersListContainer.on("mouseleave", () => {
     }, 5000);
 });
 
+signersListContainer.on("touchenter", () => cancelAnimationFrame(animation));
+signersListContainer.on("touchleave", () => {
+    cancelAnimationFrame(animation);
+    setTimeout(() => {
+        cancelAnimationFrame(animation);
+        tickerAnimation();
+    }, 5000);
+});
+
 document.getElementById("signers").addEventListener("wheel", (event) => {
     cancelAnimationFrame(animation);
     if (event.deltaY < 0) {
@@ -28,6 +37,9 @@ document.getElementById("signers").addEventListener("wheel", (event) => {
     }
     visible();
 });
+
+signersListContainer.on("touchmove", () => document.getElementById("signers").dispatchEvent("wheel"));
+
 
 function tickerAnimation() {
     if (crowbar.offset().top < 300) {

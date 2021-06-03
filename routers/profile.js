@@ -8,7 +8,7 @@ const router = express.Router();
 router.get("/profile", (req, res) => {
     if (req.session.newUser) {
         req.session.newUser = false;
-        res.render("profile", { css: "profile.css" });
+        res.render("profile");
     }
     else res.redirect("edit-profile");
 });

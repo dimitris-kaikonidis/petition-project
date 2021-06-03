@@ -3,7 +3,7 @@ body {
     box-sizing: border-box;
     height: 100vh;
     background-color: black;
-    background-image: url("./assets/city17.jpg");
+    background-image: url("../assets/city17.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
@@ -21,7 +21,7 @@ h3 {
 }
 
 #logout-button {
-    content: url("/assets/logout.svg");
+    content: url("../assets/logout.svg");
     position: absolute;
     width: 30px;
     height: 30px;
@@ -30,7 +30,7 @@ h3 {
 }
 
 #edit-profile-button {
-    content: url("/assets/user.png");
+    content: url("../assets/user.png");
     position: absolute;
     width: 30px;
     height: 30px;
@@ -64,13 +64,6 @@ main {
 .required {
     border-color: rgba(255, 117, 4, 1) !important;
     border-style: solid;
-}
-
-a.button {
-    text-decoration: none;
-    cursor: default;
-    color: black;
-    padding: 13px 65px;
 }
 
 input::-webkit-outer-spin-button,

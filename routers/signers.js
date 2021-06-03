@@ -11,13 +11,13 @@ router.get("/signers", requireSignature, (req, res) => {
     redis.EXISTS("users").then(result => {
         if (result) {
             redis.GET("users")
-                .then(result => res.render("signers", { css: "signers.css", id, signers: JSON.parse(result) }))
+                .then(result => res.render("signers", { id, signers: JSON.parse(result) }))
                 .catch(error => res.redirect("/thanks"));
         } else {
             getSignatures()
                 .then(result => {
                     redis.SETEX("users", expires, JSON.stringify(result.rows));
-                    res.render("signers", { css: "signers.css", id, signers: result.rows });
+                    res.render("signers", { id, signers: result.rows });
                 })
                 .catch(error => res.redirect("/thanks"));
         }
@@ -29,13 +29,13 @@ router.get("/signers/:city", requireSignature, (req, res) => {
     redis.EXISTS(req.params.city).then(result => {
         if (result) {
             redis.GET(req.params.city)
-                .then(result => res.render("signers", { css: "signers.css", id, signers: JSON.parse(result) }))
+                .then(result => res.render("signers", { id, signers: JSON.parse(result) }))
                 .catch(error => res.redirect("/thanks"));
         } else {
             getSignaturesByCity(req.params.city)
                 .then(result => {
                     redis.SETEX(req.params.city, expires, JSON.stringify(result.rows));
-                    res.render("signers", { css: "signers.css", id, signers: result.rows });
+                    res.render("signers", { id, signers: result.rows });
                 })
                 .catch(error => res.redirect("/thanks"));
         }

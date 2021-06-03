@@ -9,7 +9,7 @@ router.get("/thanks", requireSignature, (req, res) => {
         .then(results => {
             const count = results[0].rows[0].count;
             const img = results[1].rows[0].signature;
-            res.render("thanks", { css: "thanks.css", id, count, img });
+            res.render("thanks", { id, count, img });
         })
         .catch(error => {
             console.log("Couldn't get signature.", error);

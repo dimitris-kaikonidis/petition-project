@@ -3,7 +3,6 @@ form {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
     height: 300px;
     width: 400px;
     padding: 10px 30px;
@@ -13,7 +12,11 @@ form {
 }
 
 form > div {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+form > div:first-of-type {
+    margin-top: 20px;
 }
 
 input {
@@ -29,10 +32,6 @@ input {
     display: flex;
     justify-content: space-between;
     line-height: 25px;
-}
-
-#skip-submit-buttons {
-    display: flex;
 }
 
 .button {
@@ -54,6 +53,7 @@ a.button {
     text-transform: none;
     text-indent: 0px;
     text-shadow: none;
+    text-decoration: none;
     display: inline-block;
     text-align: center;
     align-items: flex-start;
@@ -71,6 +71,22 @@ a.button {
     line-height: 48px;
 }
 
+#skip-submit-buttons {
+    display: flex;
+}
+
+h4.error-message {
+    color: darkorange;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+h3 > a {
+    color: darkorange;
+}
+
 @media screen and (max-width: 600px) {
     form {
         width: 300px;
@@ -79,4 +95,3 @@ a.button {
     .input-container {
         width: 80%;
     }
-}

@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/petition", (req, res) => {
     const { id, first, last, signature_id } = req.session.user;
-    signature_id ? res.redirect("/thanks") : res.render("petition", { css: "petition.css", id, first, last });
+    signature_id ? res.redirect("/thanks") : res.render("petition", { id, first, last });
 });
 router.post("/petition", validateForm, (req, res) => {
     const { signature } = req.body;

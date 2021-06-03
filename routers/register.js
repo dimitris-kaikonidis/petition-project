@@ -5,7 +5,7 @@ const { validateForm } = require("../utilities/validate");
 const express = require("express");
 const router = express.Router();
 
-router.get("/register", (req, res) => res.render("register", { css: "register.css" }));
+router.get("/register", (req, res) => res.render("register"));
 router.post("/register", validateForm, (req, res) => {
     const { first, last, email, password } = req.body;
     genHash(password)
@@ -19,12 +19,12 @@ router.post("/register", validateForm, (req, res) => {
                 })
                 .catch(error => {
                     console.log("Registration failed.", error);
-                    res.redirect("/register");
+                    res.render("register", { first, last, email, wrong: true });
                 });
         })
         .catch(error => {
             console.log("Password hashing failed.", error);
-            res.redirect("/register");
+            res.render("register", { first, last, email, wrong: true });
         });
 });
 

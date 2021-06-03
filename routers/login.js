@@ -4,7 +4,7 @@ const { validateForm } = require("../utilities/validate");
 const express = require("express");
 const router = express.Router();
 
-router.get("/login", (req, res) => res.render("login", { css: "login.css" }));
+router.get("/login", (req, res) => res.render("login"));
 router.post("/login", validateForm, (req, res) => {
     const { email, password } = req.body;
     findUser(email)
@@ -19,12 +19,12 @@ router.post("/login", validateForm, (req, res) => {
                 })
                 .catch((error) => {
                     console.log(error);
-                    res.render("login", { css: "login.css", email, wrong: true });
+                    res.render("login", { email, wrong: true });
                 });
         })
         .catch((error) => {
             console.log("User not found.", error);
-            res.render("login", { css: "login.css", email, wrong: true });
+            res.render("login", { email, wrong: true });
         });
 });
 

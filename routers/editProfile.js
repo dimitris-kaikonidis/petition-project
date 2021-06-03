@@ -10,11 +10,11 @@ router.get("/edit-profile", (req, res) => {
         .then(result => {
             const { first, last, email, age, city, url } = result.rows[0];
             req.session.city = city;
-            res.render("edit_profile", { css: "edit_profile.css", id, first, last, email, age, city, url });
+            res.render("edit_profile", { id, first, last, email, age, city, url });
         })
         .catch(err => {
             console.log(err);
-            res.render("edit_profile", { css: "edit_profile.css" });
+            res.render("edit_profile");
         });
 });
 router.post("/edit-profile", (req, res) => {

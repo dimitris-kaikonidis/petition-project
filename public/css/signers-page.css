@@ -20,6 +20,13 @@
 #signers > ul > li {
     min-width: 240px;
     white-space: nowrap;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+#signers > ul > li > * {
+    margin: 0 3px;
 }
 
 #signers > h3 {
@@ -41,5 +48,23 @@
     #signers > h3 {
         left: 50%;
         transform: translateX(-50%);
+    }
+}
+
+@media screen and (max-width: 380px) {
+    #signers > ul {
+        width: 200px;
+        padding: 0;
+    }
+
+    #signers > ul > li {
+        width: 200px;
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+    }
+
+    #signers > ul > li > * {
+        width: 200px;
     }
 }
