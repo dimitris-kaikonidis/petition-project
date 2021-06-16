@@ -8,9 +8,14 @@ const params = {
     port: 5432
 };
 
-const connectionString = parse(process.env.DATABASE_URL);
+//const connectionString = parse(process.env.DATABASE_URL);
 
-const db = new Pool(connectionString);
+const db = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
+});
 
 module.exports.addSignatures = (id, signature) => {
     return db.query(
