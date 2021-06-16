@@ -8,10 +8,6 @@ const params = {
 };
 const db = new Pool(process.env.DATABASE_URL || params);
 
-// const spicedPG = require('spiced-pg');
-
-// const db = spicedPG(process.env.DATABASE_URL || "postgres:dim107:postgres@localhost:5432/petition");
-
 module.exports.addSignatures = (id, signature) => {
     return db.query(
         `
