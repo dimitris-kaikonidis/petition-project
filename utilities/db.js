@@ -6,7 +6,9 @@ const params = {
     password: "postgres",
     port: 5432
 };
-const db = new Pool(process.env.DATABASE_URL || params);
+const connectionString = process.env.DATABASE_URL || params;
+
+const db = new Pool({ connectionString });
 
 module.exports.addSignatures = (id, signature) => {
     return db.query(
