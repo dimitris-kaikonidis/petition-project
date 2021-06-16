@@ -10,7 +10,7 @@ const params = {
 
 const connectionString = parse(process.env.DATABASE_URL);
 
-const db = new Pool({ connectionString });
+const db = new Pool(connectionString);
 
 module.exports.addSignatures = (id, signature) => {
     return db.query(
