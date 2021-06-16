@@ -1,6 +1,16 @@
-const spicedPG = require('spiced-pg');
+const { Pool } = require("pg");
+const params = {
+    user: "dim107",
+    host: "localhost",
+    database: "petition",
+    password: "postgres",
+    port: 5432
+};
+const db = new Pool(process.env.DATABASE_URL || params);
 
-const db = spicedPG(process.env.DATABASE_URL || "postgres:dim107:postgres@localhost:5432/petition");
+// const spicedPG = require('spiced-pg');
+
+// const db = spicedPG(process.env.DATABASE_URL || "postgres:dim107:postgres@localhost:5432/petition");
 
 module.exports.addSignatures = (id, signature) => {
     return db.query(

@@ -21,6 +21,7 @@
         "express": "^4.14.0",
         "express-handlebars": "^3.0.0",
         "jest": "^25.1.0",
+        "pg": "^8.6.0",
         "redis": "^2.8.0",
         "spiced-pg": "^1.0.4",
         "supertest": "^4.0.2"
