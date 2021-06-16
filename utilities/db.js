@@ -1,4 +1,5 @@
 const { Pool } = require("pg");
+const { parse } = require("pg-connection-string");
 const params = {
     user: "dim107",
     host: "localhost",
@@ -6,7 +7,8 @@ const params = {
     password: "postgres",
     port: 5432
 };
-const connectionString = process.env.DATABASE_URL || params;
+
+const connectionString = parse(process.env.DATABASE_URL);
 
 const db = new Pool({ connectionString });
 
